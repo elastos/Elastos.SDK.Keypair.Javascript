@@ -111,7 +111,7 @@ PrivateKey._getRandomBN = function() {
  * @private
  */
 PrivateKey._transformBuffer = function(buf, network) {
-    var info = {}
+    const info = {}
 
     if (buf.length === 32) {
         return PrivateKey._transformBNBuffer(buf, network)

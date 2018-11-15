@@ -2,7 +2,7 @@ const _ = require('lodash')
 const BN = require('../BigNumber')
 const Point = require('../Point')
 const Signature = require('./signature')
-const PublicKey = require('../publickey')
+const PublicKey = require('../PublicKey')
 const Random = require('./random')
 const Hash = require('./hash')
 const BufferUtil = require('../util/Buffer')
@@ -226,6 +226,7 @@ ECDSA.prototype._findSignature = function(d, e) {
     } while (r.cmp(BN.Zero) <= 0 || s.cmp(BN.Zero) <= 0)
 
     s = ECDSA.toLowS(s)
+    console.log(s, r)
     return {
         s: s,
         r: r,

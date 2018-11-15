@@ -17,7 +17,7 @@
 * [ ] generateSubPrivateKey
 * [ ] generateSubPublicKey
 * [ ] freeBuf
-* [ ] getPublicKeyFromPrivateKey
+* [x] getPublicKeyFromPrivateKey
 * [ ] isAddressValid
 * [ ] getIdChainMasterPublicKey
 * [ ] generateIdChainSubPrivateKey

@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "jest"
+        "test": "jasmine"
     },
     "repository": {
         "type": "git",
@@ -26,6 +26,6 @@
         "randombytes": "^2.0.6"
     },
     "devDependencies": {
-        "jest": "^23.6.0"
+        "jasmine": "^3.3.0"
     }
 }
