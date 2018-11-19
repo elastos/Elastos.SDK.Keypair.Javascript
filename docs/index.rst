@@ -1,4 +1,4 @@
-Elastos Wallet Lib C
+Elastos Wallet Lib JavaScript
 ===================================
 
 .. image:: logo.png
