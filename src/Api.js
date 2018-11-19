@@ -8,7 +8,6 @@ const { getAddress } = require('./Address')
 const getMasterPublicKey = seed => {
     const prvKey = HDPrivateKey.fromSeed(seed)
     const parent = new HDPrivateKey(prvKey.xprivkey)
-    const singleWallet = parent.deriveChild(1, true).deriveChild(0)
 
     const multiWallet = parent
         .deriveChild(44, true)
@@ -16,6 +15,26 @@ const getMasterPublicKey = seed => {
         .deriveChild(0, true)
 
     return multiWallet.xpubkey
+}
+
+// TODO fix return type
+const getMasterPublicKeyFromKey = prvKey => {
+    const parent = new HDPrivateKey(prvKey.xprivkey)
+
+    const multiWallet = parent
+        .deriveChild(44, true)
+        .deriveChild(0, true)
+        .deriveChild(0, true)
+
+    return multiWallet
+}
+
+const getIdChainMasterPublicKey = seed => {
+    const prvKey = HDPrivateKey.fromSeed(seed)
+    const parent = new HDPrivateKey(prvKey.xprivkey)
+    const singleWallet = parent.deriveChild(0, true)
+
+    return singleWallet.xpubkey
 }
 
 const getSingleWallet = seed => {
@@ -62,4 +81,5 @@ module.exports = {
     getPublicKeyFromPrivateKey,
     generateSubPrivateKey,
     generateSubPublicKey,
+    getIdChainMasterPublicKey,
 }
