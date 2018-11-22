@@ -1,4 +1,5 @@
 const HDPrivateKey = require('./HDPrivateKey')
+const HDPublicKey = require('./HDPublicKey')
 const PrivateKey = require('./PrivateKey')
 const ecdsa = require('./crypto/ecdsa')
 const hash = require('./crypto/hash')
@@ -17,25 +18,35 @@ const getMasterPublicKey = seed => {
     return multiWallet.xpubkey
 }
 
-// TODO fix return type
-const getMasterPublicKeyFromKey = prvKey => {
-    const parent = new HDPrivateKey(prvKey.xprivkey)
-
-    const multiWallet = parent
-        .deriveChild(44, true)
-        .deriveChild(0, true)
-        .deriveChild(0, true)
-
-    return multiWallet
-}
-
 const getIdChainMasterPublicKey = seed => {
     const prvKey = HDPrivateKey.fromSeed(seed)
     const parent = new HDPrivateKey(prvKey.xprivkey)
-    const singleWallet = parent.deriveChild(0, true)
+    const idChain = parent.deriveChild(0, true)
 
-    return singleWallet.xpubkey
+    return idChain.publicKey
 }
+
+const testSeed =
+    '5fd595530517ae121ee90ff09e48977c2c07b39a6b51d61148154cc8c4fb086c2ccb27b823cbb2735b886298dc12ccaf321055adee14c0dd4f803bbc53893af3'
+
+// rst pubkey = '0296a25e91434a17b323bdb9c944c96479f07ba06342bf8370ef5f8769f32150b7'
+const m = getIdChainMasterPublicKey(testSeed)
+console.log(m.toString('hex'))
+
+const getDidWallet = (seed, i) => {
+    const prvKey = HDPrivateKey.fromSeed(seed)
+    const parent = new HDPrivateKey(prvKey.xprivkey)
+
+    const didWallet = parent
+        .deriveChild(0, true)
+        .deriveChild(0, false)
+        .deriveChild(i, false)
+
+    return didWallet
+}
+
+const generateIdChainSubPrivateKey = (seed, i) => getDidWallet(seed, i).privateKey
+const generateIdChainSubPublicKey = (masterPublicKey, i) => getDidWallet(seed, i).publicKey
 
 const getSingleWallet = seed => {
     const prvKey = HDPrivateKey.fromSeed(seed)
@@ -59,21 +70,6 @@ const getPublicKeyFromPrivateKey = prvKey => PrivateKey.fromBuffer(prvKey).publi
 const generateSubPrivateKey = (seed, i) => getMultiWallet(seed, i).privateKey
 const generateSubPublicKey = (seed, i) => getMultiWallet(seed, i).publicKey
 
-// const prvKey = '1615CC0AB02168680354E07048F9CE54B2921847F68453586C4A2DBC23BA2C9D'
-// const signature = ecdsa.sign(Buffer.from(hash.sha256('helloworld')), PrivateKey.fromString(prvKey), 'little')
-//
-// console.log(
-//     generateSubPrivateKey(
-//         '466cf12d6ee119bf15e26be50e4b3624d46457bf1051f2c0c1b61b4fb921a5b65cc54714ea8e9aa51c22ca2eb89913fb8dab5676c778516ca1a04a47693d8bef',
-//         0,
-//     ).toString(),
-//     generateSubPublicKey(
-//         '466cf12d6ee119bf15e26be50e4b3624d46457bf1051f2c0c1b61b4fb921a5b65cc54714ea8e9aa51c22ca2eb89913fb8dab5676c778516ca1a04a47693d8bef',
-//         0,
-//     ).toString(),
-//     getAddress(Buffer.from('030f1ee41fe75591852c644ddb97b51dbff6d407cf39b402f19f3fb5932f1f26b1', 'hex')),
-// )
-
 module.exports = {
     getMasterPublicKey,
     getSinglePrivateKey,
@@ -82,4 +78,6 @@ module.exports = {
     generateSubPrivateKey,
     generateSubPublicKey,
     getIdChainMasterPublicKey,
+    generateIdChainSubPrivateKey,
+    generateIdChainSubPublicKey,
 }

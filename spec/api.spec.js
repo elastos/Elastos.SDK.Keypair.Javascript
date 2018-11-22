@@ -7,6 +7,8 @@ const {
     generateSubPrivateKey,
     generateSubPublicKey,
     getIdChainMasterPublicKey,
+    generateIdChainSubPrivateKey,
+    generateIdChainSubPublicKey,
 } = require('../src/Api')
 
 describe('getSeedFromMnemonic', function() {
@@ -138,12 +140,47 @@ describe('did', function() {
         '6bb1807b90f9a4aef6e526784b5cb173455998772db58d58f6cf99d81ad53e9ffacfcce471937dae2194073ac1ea81bdd9b35a245860aa9471ae2e24059cca67'
     const didMasterPublicKey =
         '423bdad6d7e9e282596c449936257d5ca85f249925b6330cbe9e42735fcecb5206a02bf602462b3d2b426bdebdc82c5750fff81591bd1afa1252c0bf999d16ba'
-    // it('generateIdChainMasterPublicKey', function() {
-    //     // expect(getIdChainMasterPublicKey(seed)).toBe('')
-    // })
+    xit('generateIdChainMasterPublicKey', function() {
+        const data = [
+            {
+                seed:
+                    'be67ff091cf88dc74f7988463aa2607990d2e13638dd6b9863d39d2e27abe88e564e6ce82b200b0e3a03cf1169531499d02882ccd11534246f863be7a96a27c1',
+                pubKey: '0296a25e91434a17b323bdb9c944c96479f07ba06342bf8370ef5f8769f32150b7',
+            },
+            {
+                seed:
+                    '5fd595530517ae121ee90ff09e48977c2c07b39a6b51d61148154cc8c4fb086c2ccb27b823cbb2735b886298dc12ccaf321055adee14c0dd4f803bbc53893af3',
+                pubKey: '03c69709274fc92662144ad702d117d7e7131c236f8eb892dec685e76c94873a5c',
+            },
+            {
+                seed:
+                    'c42f919fd7147983a45b60947b6dca382006a3aef39143bb1a11255b8dccfca937d3414b52b7f7e9b5546c5d123ad2134bfd985de3a74f370045f1f52983ca05',
+                pubKey: '020b3b468f511f387a1494aa360f67d17ef4aaab8e44e6c37d973ffaf3f59e1a9f',
+            },
+        ]
+        for (let { seed, pubKey } of data) {
+            expect(getIdChainMasterPublicKey(seed).publicKey).toBe(pubKey)
+        }
+    })
+
+    fit('generateIdChainSubPrivateKey', function() {
+        const seed =
+            '6bb1807b90f9a4aef6e526784b5cb173455998772db58d58f6cf99d81ad53e9ffacfcce471937dae2194073ac1ea81bdd9b35a245860aa9471ae2e24059cca67'
+        expect(generateIdChainSubPrivateKey(seed, 0).toString()).toBe(
+            '09a617f1b1245806783595e1d6689e57a8acf89cebe2c5883e79d9656cf0467e',
+        )
+
+        expect(generateIdChainSubPrivateKey(seed, 1).toString()).toBe(
+            'aeeeb7b01afac7fa9a0499c9d7b73c4eb6f11d5424554c1f1c35c25891348400',
+        )
+    })
+
     it('getDid', function() {
         expect(getDid('03b72e5fd9cc42e29a30f093e57269dce61173c0507808d6861f6ddb8016b342e7')).toBe(
             'ibcDsUaFm49dK7BRXLDu4AcWun8VF9QwA9',
+        )
+        expect(getDid('02bc9ca50c7a4b470340818795e3d6d071bc4860b9cc3abe769bb114dddf1e4db1 ')).toBe(
+            'ibHSeAhRHMXzVvAjYE2heSWgNJhn434kJD',
         )
     })
 })
