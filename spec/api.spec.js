@@ -1,11 +1,12 @@
 const { getSeedFromMnemonic } = require('../src/Mnemonic')
-const { getAddress } = require('../src/Address')
+const { getMultiSignAddress, getAddress, getDid, getMultiSign } = require('../src/Address')
 const {
     getMasterPublicKey,
     getSinglePrivateKey,
     getSinglePublicKey,
     generateSubPrivateKey,
     generateSubPublicKey,
+    getIdChainMasterPublicKey,
 } = require('../src/Api')
 
 describe('getSeedFromMnemonic', function() {
@@ -129,5 +130,31 @@ describe('generateSubPrivateKey & generateSubPublicKey', function() {
             expect(generateSubPrivateKey(seed, i).toString('hex')).toBe(prvKey)
             expect(generateSubPublicKey(seed, i).toString('hex')).toBe(pubKey)
         })
+    })
+})
+
+describe('did', function() {
+    const seed =
+        '6bb1807b90f9a4aef6e526784b5cb173455998772db58d58f6cf99d81ad53e9ffacfcce471937dae2194073ac1ea81bdd9b35a245860aa9471ae2e24059cca67'
+    const didMasterPublicKey =
+        '423bdad6d7e9e282596c449936257d5ca85f249925b6330cbe9e42735fcecb5206a02bf602462b3d2b426bdebdc82c5750fff81591bd1afa1252c0bf999d16ba'
+    // it('generateIdChainMasterPublicKey', function() {
+    //     // expect(getIdChainMasterPublicKey(seed)).toBe('')
+    // })
+    it('getDid', function() {
+        expect(getDid('03b72e5fd9cc42e29a30f093e57269dce61173c0507808d6861f6ddb8016b342e7')).toBe(
+            'ibcDsUaFm49dK7BRXLDu4AcWun8VF9QwA9',
+        )
+    })
+})
+
+describe('getMutiSignAddress', function() {
+    const pubKeys = [
+        '02bc11aa5c35acda6f6f219b94742dd9a93c1d11c579f98f7e3da05ad910a48306',
+        '031a9d45859da69dbc444723048932b8f56bb9937c5260238b4821a3b1ccfd78b6',
+        '02746aa551414e16921a3249ddd5e49923299c97102c7e7c5b9c6e81dd3949556d',
+    ]
+    it('should work', function() {
+        expect(getMultiSignAddress(pubKeys, 2)).toBe('8NJ7dbKsG2NRiBqdhY6LyKMiWp166cFBiG')
     })
 })
