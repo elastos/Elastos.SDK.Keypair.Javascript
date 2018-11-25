@@ -9,6 +9,8 @@ const {
     getIdChainMasterPublicKey,
     generateIdChainSubPrivateKey,
     generateIdChainSubPublicKey,
+    sign,
+    verify,
 } = require('../src/Api')
 
 describe('getSeedFromMnemonic', function() {
@@ -140,7 +142,7 @@ describe('did', function() {
         '6bb1807b90f9a4aef6e526784b5cb173455998772db58d58f6cf99d81ad53e9ffacfcce471937dae2194073ac1ea81bdd9b35a245860aa9471ae2e24059cca67'
     const didMasterPublicKey =
         '423bdad6d7e9e282596c449936257d5ca85f249925b6330cbe9e42735fcecb5206a02bf602462b3d2b426bdebdc82c5750fff81591bd1afa1252c0bf999d16ba'
-    xit('generateIdChainMasterPublicKey', function() {
+    it('generateIdChainMasterPublicKey', function() {
         const data = [
             {
                 seed:
@@ -163,7 +165,7 @@ describe('did', function() {
         }
     })
 
-    fit('generateIdChainSubPrivateKey', function() {
+    it('generateIdChainSubPrivateKey', function() {
         const seed =
             '6bb1807b90f9a4aef6e526784b5cb173455998772db58d58f6cf99d81ad53e9ffacfcce471937dae2194073ac1ea81bdd9b35a245860aa9471ae2e24059cca67'
         expect(generateIdChainSubPrivateKey(seed, 0).toString()).toBe(
@@ -193,5 +195,14 @@ describe('getMutiSignAddress', function() {
     ]
     it('should work', function() {
         expect(getMultiSignAddress(pubKeys, 2)).toBe('8NJ7dbKsG2NRiBqdhY6LyKMiWp166cFBiG')
+    })
+})
+
+describe('signAndVerify', function() {
+    it('should be true', function() {
+        const privateKey = '0eb7aa4fa4053475f6106f8914cbbb3883b7e96b344de12817a851a1beb63d9b'
+        const publicKey = '0387603f569e848e4d23d949cc4b3b5e747a252a375fafad15d0d45e74d694a5d0'
+        const message = 'hello'
+         expect(verify(message, sign(message, privateKey), publicKey)).toBe(true)
     })
 })
