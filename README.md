@@ -22,7 +22,11 @@
 * [ ] getIdChainMasterPublicKey
 * [ ] generateIdChainSubPrivateKey
 * [ ] generateIdChainSubPublicKey
-* [ ] getDid
-* [ ] getMultiSignAddress
+* [x] getDid
+* [x] getMultiSignAddress
 * [ ] multiSignTransaction
 * [ ] serializeMultiSignTransaction
+
+## TODOS
+
+* [ ] Publish on npm
