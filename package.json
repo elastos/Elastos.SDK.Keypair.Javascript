@@ -18,7 +18,6 @@
     },
     "homepage": "https://github.com/geastwood/Elastos.ORG.Wallet.Lib.Javascript#readme",
     "dependencies": {
-        "big-integer": "^1.6.36",
         "bigi": "^1.4.2",
         "bip39": "^2.5.0",
         "bn.js": "^4.11.8",

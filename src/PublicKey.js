@@ -338,6 +338,24 @@ PublicKey.prototype.toBuffer = PublicKey.prototype.toDER = function() {
     }
 }
 
+PublicKey.prototype.unCompress = function() {
+    var x = this.point.getX()
+    var y = this.point.getY()
+
+    var xbuf = x.toBuffer({
+        size: 32,
+    })
+    var ybuf = y.toBuffer({
+        size: 32,
+    })
+
+    if (!this.compressed) {
+        throw new Error('Publick key is not compressed.')
+    }
+
+    return Buffer.concat([Buffer.from([0x04]), xbuf, ybuf])
+}
+
 /**
  * Will return a sha256 + ripemd160 hash of the serialized public key
  * @see https://github.com/bitcoin/bitcoin/blob/master/src/pubkey.h#L141
