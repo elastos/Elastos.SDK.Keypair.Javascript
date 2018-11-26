@@ -81,16 +81,30 @@ const sign = (data, prvKey) => {
     return rs.ECDSA.asn1SigToConcatSig(signature); // return a hex string
 }
 
-const verify = (data, signature, pubKey) => {
-    const two = new bigInt(2),
-    // 115792089210356248762697446949407573530086143415290314195533631308867097853951
-    prime = two.pow(256).subtract( two.pow(224) ).add( two.pow(192) ).add( two.pow(96) ).subtract(1),
-    b = new bigInt( '41058363725152142129326129780047268409114441015993725554835256314039467401291' ),
-    // Pre-computed value, or literal
-    pIdent = prime.add(1).divide(4); // 28948022302589062190674361737351893382521535853822578548883407827216774463488
+function pad_with_zeroes(number, length) {
+    var retval = '' + number;
+    while (retval.length < length) {
+        retval = '0' + retval;
+    }
+    return retval;
+}
 
-    var signY = new Number(pubKey[1]) - 2;
-    var x = new bigInt(pubKey.substring(2), 16);
+const two = new bigInt(2),
+// 115792089210356248762697446949407573530086143415290314195533631308867097853951
+prime = two.pow(256).subtract( two.pow(224) ).add( two.pow(192) ).add( two.pow(96) ).subtract(1),
+b = new bigInt( '41058363725152142129326129780047268409114441015993725554835256314039467401291' ),
+// Pre-computed value, or literal
+// 28948022302589062190674361737351893382521535853822578548883407827216774463488
+pIdent = prime.add(1).divide(4);
+
+/**
+ * Point decompress NIST curve
+ * @param {string} Compressed representation in hex string
+ * @return {string} Uncompressed representation in hex string
+ */
+function ECPointDecompress( comp ) {
+    var signY = new Number(comp[1]) - 2;
+    var x = new bigInt(comp.substring(2), 16);
     // y^2 = x^3 - 3x + b
     var y = x.pow(3).subtract( x.multiply(3) ).add( b ).modPow( pIdent, prime );
     // If the parity doesn't match it's the *other* root
@@ -98,13 +112,15 @@ const verify = (data, signature, pubKey) => {
         // y = prime - y
         y = prime.subtract( y );
     }
-    var decompressedKey = '04' + x.toString(16) + y.toString(16);
+    return '04' + pad_with_zeroes(x.toString(16), 64) + pad_with_zeroes(y.toString(16), 64);
+}
 
+const verify = (data, signature, pubKey) => {
+    var decompressedKey = ECPointDecompress(pubKey);
     var signer = new rs.KJUR.crypto.Signature({alg: "SHA256withECDSA"});
     signer.init({xy: decompressedKey, curve: "secp256r1"});
     signer.updateString(data);
     var verified = signer.verify(rs.ECDSA.concatSigToASN1Sig(signature));
-
     return verified; // return a boolean
 }
 

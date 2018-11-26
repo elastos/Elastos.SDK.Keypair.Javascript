@@ -11,8 +11,8 @@
 * [x] getAddress
 * [x] generateMnemonic
 * [x] getSeedFromMnemonic
-* [ ] sign
-* [ ] verify
+* [x] sign
+* [x] verify
 * [ ] generateRawTransaction
 * [ ] generateSubPrivateKey
 * [ ] generateSubPublicKey

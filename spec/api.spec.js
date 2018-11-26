@@ -203,6 +203,12 @@ describe('signAndVerify', function() {
         const privateKey = '0eb7aa4fa4053475f6106f8914cbbb3883b7e96b344de12817a851a1beb63d9b'
         const publicKey = '0387603f569e848e4d23d949cc4b3b5e747a252a375fafad15d0d45e74d694a5d0'
         const message = 'hello'
-         expect(verify(message, sign(message, privateKey), publicKey)).toBe(true)
+        expect(verify(message, sign(message, privateKey), publicKey)).toBe(true)
+    })
+    it('should be true with leading 0', function() {
+        const privateKey = '6a0827b159a58305b7891d039b14bac61de59145bd42b195152e6c0377d34d26'
+        const publicKey = '020adf178b95000cb20a8a384c920b2e3eaf875ca7a23475c397816ab18be2567c'
+        const message = 'hello'
+        expect(verify(message, sign(message, privateKey), publicKey)).toBe(true)
     })
 })
