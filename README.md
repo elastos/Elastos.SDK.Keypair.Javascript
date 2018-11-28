@@ -30,3 +30,5 @@
 ## TODOS
 
 * [ ] Publish on npm
+* [ ] add eslint
+* [ ] add flow

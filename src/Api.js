@@ -23,6 +23,7 @@ const uncompress = key => {
 
     return Buffer.concat([Buffer.from([0x04]), xbuf, ybuf])
 }
+
 const getMasterPublicKey = seed => {
     const prvKey = HDPrivateKey.fromSeed(seed)
     const parent = new HDPrivateKey(prvKey.xprivkey)
