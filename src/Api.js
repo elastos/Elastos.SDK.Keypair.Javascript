@@ -1,14 +1,28 @@
-const HDPrivateKey = require('./HDPrivateKey')
-const HDPublicKey = require('./HDPublicKey')
-const PublicKey = require('./PublicKey')
-const PrivateKey = require('./PrivateKey')
-const ecdsa = require('./crypto/ecdsa')
-const hash = require('./crypto/hash')
+const { HDPrivateKey, HDPublicKey, PublicKey, PrivateKey, crypto } = require('bitcore-lib')
+const { Buffer } = require('buffer')
+const { ecdsa, hash } = crypto
 const { getSeedFromMnemonic } = require('./Mnemonic')
 const { getAddress } = require('./Address')
-
 const rs = require('jsrsasign')
 
+const uncompress = key => {
+    var x = key.point.getX()
+    var y = key.point.getY()
+
+    var xbuf = x.toBuffer({
+        size: 32,
+    })
+
+    var ybuf = y.toBuffer({
+        size: 32,
+    })
+
+    if (!key.compressed) {
+        throw new Error('Publick key is not compressed.')
+    }
+
+    return Buffer.concat([Buffer.from([0x04]), xbuf, ybuf])
+}
 const getMasterPublicKey = seed => {
     const prvKey = HDPrivateKey.fromSeed(seed)
     const parent = new HDPrivateKey(prvKey.xprivkey)
@@ -28,13 +42,6 @@ const getIdChainMasterPublicKey = seed => {
 
     return idChain.publicKey
 }
-
-const testSeed =
-    '5fd595530517ae121ee90ff09e48977c2c07b39a6b51d61148154cc8c4fb086c2ccb27b823cbb2735b886298dc12ccaf321055adee14c0dd4f803bbc53893af3'
-
-// rst pubkey = '0296a25e91434a17b323bdb9c944c96479f07ba06342bf8370ef5f8769f32150b7'
-const m = getIdChainMasterPublicKey(testSeed)
-console.log(m.toString('hex'))
 
 const getDidWallet = (seed, i) => {
     const prvKey = HDPrivateKey.fromSeed(seed)
@@ -85,7 +92,7 @@ const verify = (data, signature, pubKey) => {
     const pubKeyObj = PublicKey.fromString(pubKey)
 
     const signer = new rs.KJUR.crypto.Signature({ alg: 'SHA256withECDSA' })
-    signer.init({ xy: pubKeyObj.unCompress().toString('hex'), curve: 'secp256r1' })
+    signer.init({ xy: uncompress(pubKeyObj).toString('hex'), curve: 'secp256r1' })
     signer.updateString(data)
 
     return signer.verify(rs.ECDSA.concatSigToASN1Sig(signature))
