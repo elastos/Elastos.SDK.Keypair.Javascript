@@ -1,7 +1,7 @@
 {
-    "name": "Elastos.ORG.Wallet.Lib.Javascript",
-    "version": "1.0.0",
-    "description": "",
+    "name": "elastos-wallet-js",
+    "version": "1.0.3",
+    "description": "Elastos wallet SDK in JavaScript",
     "main": "index.js",
     "scripts": {
         "test": "jasmine"
@@ -10,7 +10,12 @@
         "type": "git",
         "url": "git+https://github.com/geastwood/Elastos.ORG.Wallet.Lib.Javascript.git"
     },
-    "keywords": [],
+    "keywords": [
+        "elastos",
+        "wallet",
+        "sdk",
+        "javascript"
+    ],
     "author": "",
     "license": "ISC",
     "bugs": {

@@ -29,13 +29,6 @@ const getIdChainMasterPublicKey = seed => {
     return idChain.publicKey
 }
 
-const testSeed =
-    '5fd595530517ae121ee90ff09e48977c2c07b39a6b51d61148154cc8c4fb086c2ccb27b823cbb2735b886298dc12ccaf321055adee14c0dd4f803bbc53893af3'
-
-// rst pubkey = '0296a25e91434a17b323bdb9c944c96479f07ba06342bf8370ef5f8769f32150b7'
-const m = getIdChainMasterPublicKey(testSeed)
-console.log(m.toString('hex'))
-
 const getDidWallet = (seed, i) => {
     const prvKey = HDPrivateKey.fromSeed(seed)
     const parent = new HDPrivateKey(prvKey.xprivkey)

@@ -1,3 +1,6 @@
+## Install
+
+
 ## Development
 
 * `yarn` or `npm install` to install dependencies
@@ -11,17 +14,17 @@
 * [x] getAddress
 * [x] generateMnemonic
 * [x] getSeedFromMnemonic
-* [ ] sign
-* [ ] verify
-* [ ] generateRawTransaction
-* [ ] generateSubPrivateKey
-* [ ] generateSubPublicKey
+* [x] sign
+* [x] verify
+* [x] generateRawTransaction
+* [x] generateSubPrivateKey
+* [x] generateSubPublicKey
 * [ ] freeBuf
 * [x] getPublicKeyFromPrivateKey
 * [ ] isAddressValid
-* [ ] getIdChainMasterPublicKey
-* [ ] generateIdChainSubPrivateKey
-* [ ] generateIdChainSubPublicKey
+* [x] getIdChainMasterPublicKey
+* [x] generateIdChainSubPrivateKey
+* [x] generateIdChainSubPublicKey
 * [x] getDid
 * [x] getMultiSignAddress
 * [ ] multiSignTransaction
@@ -30,3 +33,5 @@
 ## TODOS
 
 * [ ] Publish on npm
+* [ ] add eslint
+* [ ] add flow
