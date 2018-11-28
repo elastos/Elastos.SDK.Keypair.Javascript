@@ -1,9 +1,10 @@
-const { getSeedFromMnemonic } = require('./src/Mnemonic')
-const { getMultiSignAddress, getAddress, getDid, getMultiSign } = require('./src/Address')
+const { generateMnemonic, getSeedFromMnemonic } = require('./src/Mnemonic')
+const { getMultiSignAddress, getAddress, getDid } = require('./src/Address')
 const {
     getMasterPublicKey,
     getSinglePrivateKey,
     getSinglePublicKey,
+    getPublicKeyFromPrivateKey,
     generateSubPrivateKey,
     generateSubPublicKey,
     getIdChainMasterPublicKey,
@@ -14,14 +15,15 @@ const {
 } = require('./src/Api')
 
 module.exports = {
+    generateMnemonic,
     getSeedFromMnemonic,
     getMultiSignAddress,
     getAddress,
     getDid,
-    getMultiSign,
     getMasterPublicKey,
     getSinglePrivateKey,
     getSinglePublicKey,
+    getPublicKeyFromPrivateKey,
     generateSubPrivateKey,
     generateSubPublicKey,
     getIdChainMasterPublicKey,

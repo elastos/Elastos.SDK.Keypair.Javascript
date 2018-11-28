@@ -1,5 +1,8 @@
 ## Install
 
+`yarn add elastos-wallet-js`
+or
+`npm install elastos-wallet-js`
 
 ## Development
 
