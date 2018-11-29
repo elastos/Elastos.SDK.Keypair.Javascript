@@ -5,8 +5,8 @@ import Elastos from "elastos-wallet-js";
 function getAddress() {
   var mnem = Elastos.generateMnemonic();
   var seed = Elastos.getSeedFromMnemonic(mnem);
-  var privateKey = Elastos.getSinglePrivateKey();
-  var publicKey = Elastos.getSinglePublicKey();
+  var privateKey = Elastos.getSinglePrivateKey(seed);
+  var publicKey = Elastos.getSinglePublicKey(seed);
   return Elastos.getAddress(publicKey.toString('hex'));
 }
 
