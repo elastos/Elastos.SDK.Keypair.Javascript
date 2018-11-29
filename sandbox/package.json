@@ -1,0 +1,9 @@
+{
+  "description": "Demo of Elastos Wallet Javascript SDK",
+  "main": "index.js",
+  "dependencies": {
+    "react": "^16",
+    "react-dom": "^16",
+    "elastos-wallet-js": ">1.0.0"
+  }
+}
