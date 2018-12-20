@@ -1,5 +1,5 @@
 const { getSeedFromMnemonic } = require('../src/Mnemonic')
-const { getMultiSignAddress, getAddress, getDid, getMultiSign } = require('../src/Address')
+const { getMultiSignAddress, getAddressFromPrivateKey, getAddress, getDid, getMultiSign } = require('../src/Address')
 const {
     getMasterPublicKey,
     getSinglePrivateKey,
@@ -9,6 +9,7 @@ const {
     getIdChainMasterPublicKey,
     generateIdChainSubPrivateKey,
     generateIdChainSubPublicKey,
+    getPublicKeyFromPrivateKey,
     sign,
     verify,
 } = require('../src/Api')
@@ -70,6 +71,17 @@ describe('getAddress', function() {
     it('should get valid address from a public key', function() {
         const publicKey = '0215fd6783fb8a9d8819ac68e62f20dee0d9ab58123ed532e3d4308066bf8fff2e'
         expect(getAddress(publicKey)).toBe('EKc8u9BZFUwKZnsfjPT2zNNTTQbFymYsLY')
+    })
+})
+
+fdescribe('getAddressFromPrivateKey', function() {
+    it('should get address from private key', function() {
+        const seed =
+            '466cf12d6ee119bf15e26be50e4b3624d46457bf1051f2c0c1b61b4fb921a5b65cc54714ea8e9aa51c22ca2eb89913fb8dab5676c778516ca1a04a47693d8bef'
+        const prvKey = 'f1f64a2472653087ebdaf4849b99809b4637d28381dd910a5fe94ca6b2ebe9ba'
+
+        const pubKey = getSinglePublicKey(seed).toString('hex')
+        expect(getAddressFromPrivateKey(prvKey)).toBe(getAddress(pubKey))
     })
 })
 

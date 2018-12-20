@@ -4,25 +4,7 @@ const { ecdsa, hash } = crypto
 const { getSeedFromMnemonic } = require('./Mnemonic')
 const { getAddress } = require('./Address')
 const rs = require('jsrsasign')
-
-const uncompress = key => {
-    var x = key.point.getX()
-    var y = key.point.getY()
-
-    var xbuf = x.toBuffer({
-        size: 32,
-    })
-
-    var ybuf = y.toBuffer({
-        size: 32,
-    })
-
-    if (!key.compressed) {
-        throw new Error('Publick key is not compressed.')
-    }
-
-    return Buffer.concat([Buffer.from([0x04]), xbuf, ybuf])
-}
+const { uncompress } = require('./util')
 
 const getMasterPublicKey = seed => {
     const prvKey = HDPrivateKey.fromSeed(seed)

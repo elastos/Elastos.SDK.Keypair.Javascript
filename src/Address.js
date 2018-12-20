@@ -1,6 +1,8 @@
-const { PublicKey, crypto, encoding, ...rest } = require('bitcore-lib')
+const { crypto, encoding, PrivateKey } = require('bitcore-lib')
+const { getPublicKeyFromPrivateKey } = require('./Api')
 const { Buffer } = require('buffer')
 const bn = require('./BigNumber')
+const { compress } = require('./util')
 
 const { Hash } = crypto
 const { Base58Check } = encoding
@@ -37,6 +39,13 @@ const getAddressBase = (pubKey, signType) => {
 }
 
 const getAddress = pubKey => getAddressBase(pubKey, 'ELA_STANDARD')
+
+const getAddressFromPrivateKey = prvKey => {
+    const prvKeyBuf = Buffer.from(prvKey, 'hex')
+    const pubKeyObj = getPublicKeyFromPrivateKey(prvKeyBuf)
+    return getAddress(compress(pubKeyObj))
+}
+
 const getDid = pubKey => getAddressBase(pubKey, 'ELA_IDCHAIN')
 
 const getMultiSignAddress = (pubKeys, requiredCount) => {
@@ -62,6 +71,7 @@ const getMultiSignAddress = (pubKeys, requiredCount) => {
 module.exports = {
     toCode,
     getAddress,
+    getAddressFromPrivateKey,
     getDid,
     getMultiSignAddress,
 }
