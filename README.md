@@ -35,6 +35,6 @@ or
 
 ## TODOS
 
-* [ ] Publish on npm
+* [x] Publish on npm
 * [ ] add eslint
 * [ ] add flow

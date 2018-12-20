@@ -205,4 +205,10 @@ describe('signAndVerify', function() {
         const message = 'hello'
         expect(verify(message, sign(message, privateKey), publicKey)).toBe(true)
     })
+    it('should be true with leading 0', function() {
+        const privateKey = '6a0827b159a58305b7891d039b14bac61de59145bd42b195152e6c0377d34d26'
+        const publicKey = '020adf178b95000cb20a8a384c920b2e3eaf875ca7a23475c397816ab18be2567c'
+        const message = 'hello'
+        expect(verify(message, sign(message, privateKey), publicKey)).toBe(true)
+    })
 })

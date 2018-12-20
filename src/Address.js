@@ -1,8 +1,9 @@
+const { PublicKey, crypto, encoding, ...rest } = require('bitcore-lib')
 const { Buffer } = require('buffer')
-const Hash = require('./crypto/hash')
 const bn = require('./BigNumber')
-const Base58Check = require('./encoding/base58check.js')
-const PublicKey = require('./PublicKey')
+
+const { Hash } = crypto
+const { Base58Check } = encoding
 
 const signTypeMap = {
     ELA_STANDARD: { type: 0xac, address: 0x21 },
