@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "jasmine",
-        "postinstall": "sed -i '' \"s:new EC('secp256k1'):new EC('p256'):g\" node_modules/bitcore-lib/lib/crypto/point.js & echo 0"
+        "postinstall": "sed -i 's/secp256k1/p256/g' node_modules/bitcore-lib/lib/crypto/point.js & echo 0"
     },
     "repository": {
         "type": "git",
