@@ -74,7 +74,7 @@ describe('getAddress', function() {
     })
 })
 
-fdescribe('getAddressFromPrivateKey', function() {
+describe('getAddressFromPrivateKey', function() {
     it('should get address from private key', function() {
         const seed =
             '466cf12d6ee119bf15e26be50e4b3624d46457bf1051f2c0c1b61b4fb921a5b65cc54714ea8e9aa51c22ca2eb89913fb8dab5676c778516ca1a04a47693d8bef'

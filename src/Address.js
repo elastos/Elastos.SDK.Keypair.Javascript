@@ -1,4 +1,4 @@
-const { crypto, encoding, PrivateKey } = require('bitcore-lib')
+const { crypto, encoding, PrivateKey } = require('bitcore-lib-p256')
 const { getPublicKeyFromPrivateKey } = require('./Api')
 const { Buffer } = require('buffer')
 const bn = require('./BigNumber')
