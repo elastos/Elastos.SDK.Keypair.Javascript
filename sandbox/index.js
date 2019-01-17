@@ -30,7 +30,7 @@ function getAddress() {
 }
 
 function generateRawTransactionOnTestnet() {
-  tx.createTx('http://localhost:8081', testnet_address_from, testnet_address_to, 1000);
+  tx.createTx(testnet_endpoint, testnet_address_from, testnet_address_to, 1000);
   console.log(tx);
   return tx.generateRawTransaction(testnet_privateKey);
   // After generateRawTransaction you can use tx.sendRawTx(testnet_endpoint) to
