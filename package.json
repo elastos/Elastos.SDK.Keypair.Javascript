@@ -1,14 +1,14 @@
 {
     "name": "elastos-wallet-js",
-    "version": "1.0.5",
-    "description": "Elastos wallet SDK in JavaScript",
+    "version": "1.0.6",
+    "description": "Elastos Wallet SDK in JavaScript",
     "main": "index.js",
     "scripts": {
         "test": "jasmine"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/chutium/Elastos.ORG.Wallet.Lib.Javascript.git"
+        "url": "git+https://github.com/elastos/Elastos.ORG.Wallet.Lib.Javascript.git"
     },
     "keywords": [
         "elastos",
@@ -17,11 +17,11 @@
         "javascript"
     ],
     "author": "Elastos Foundation",
-    "license": "ISC",
+    "license": "MIT",
     "bugs": {
-        "url": "https://github.com/chutium/Elastos.ORG.Wallet.Lib.Javascript/issues"
+        "url": "https://github.com/elastos/Elastos.ORG.Wallet.Lib.Javascript/issues"
     },
-    "homepage": "https://github.com/chutium/Elastos.ORG.Wallet.Lib.Javascript#readme",
+    "homepage": "https://github.com/elastos/Elastos.ORG.Wallet.Lib.Javascript#readme",
     "dependencies": {
         "bigi": "^1.4.2",
         "bip39": "^2.5.0",

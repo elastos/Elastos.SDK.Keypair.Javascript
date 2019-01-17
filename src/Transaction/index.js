@@ -3,7 +3,6 @@
 const _ = require('lodash')
 const { encoding, PrivateKey } = require('bitcore-lib-p256')
 const { toCode } = require('../Address')
-const { reverseByteBuffer } = require('../Utils')
 const { sign } = require('../Api')
 
 const Attribute = require('./attribute')

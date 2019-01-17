@@ -11,7 +11,7 @@ or
 
 ## Docs
 
-https://elastos-wallet-lib-javascript.readthedocs.io/en/latest/
+https://elastos-wallet-lib-javascript.readthedocs.io/
 
 ## Sandboxes
 
