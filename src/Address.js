@@ -1,10 +1,9 @@
 const { crypto, encoding, PrivateKey } = require('bitcore-lib-p256')
 const { getPublicKeyFromPrivateKey } = require('./Api')
 const { Buffer } = require('buffer')
-const bn = require('./BigNumber')
-const { compress } = require('./util')
+const { compress } = require('./Utils')
 
-const { Hash } = crypto
+const { BN, Hash } = crypto
 const { Base58Check } = encoding
 
 const signTypeMap = {
@@ -20,8 +19,8 @@ const signTypeMap = {
 
 // a, b => public key
 const sortBigNumber = (a, b) => {
-    const bBigInt = bn.fromBuffer(Buffer.from(a, 'hex').slice(1))
-    const aBigInt = bn.fromBuffer(Buffer.from(b, 'hex').slice(1))
+    const bBigInt = BN.fromBuffer(Buffer.from(a, 'hex').slice(1))
+    const aBigInt = BN.fromBuffer(Buffer.from(b, 'hex').slice(1))
     return bBigInt.gt(aBigInt)
 }
 

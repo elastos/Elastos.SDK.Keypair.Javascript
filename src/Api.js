@@ -4,7 +4,7 @@ const { ecdsa, hash } = crypto
 const { getSeedFromMnemonic } = require('./Mnemonic')
 const { getAddress } = require('./Address')
 const rs = require('jsrsasign')
-const { uncompress } = require('./util')
+const { uncompress } = require('./Utils')
 
 const getMasterPublicKey = seed => {
     const prvKey = HDPrivateKey.fromSeed(seed)
@@ -63,20 +63,22 @@ const getPublicKeyFromPrivateKey = prvKey => PrivateKey.fromBuffer(prvKey).publi
 const generateSubPrivateKey = (seed, i) => getMultiWallet(seed, i).privateKey
 const generateSubPublicKey = (seed, i) => getMultiWallet(seed, i).publicKey
 
-const sign = (data, prvKey) => {
+const sign = (data, prvKey, hex = false) => {
+    if (!hex) data = Buffer.from(data, 'utf8').toString('hex')
     var signer = new rs.KJUR.crypto.Signature({ alg: 'SHA256withECDSA' })
     signer.init({ d: prvKey, curve: 'secp256r1' })
-    signer.updateString(data)
+    signer.updateHex(data)
     var signature = signer.sign()
     return rs.ECDSA.asn1SigToConcatSig(signature) // return a hex string
 }
 
-const verify = (data, signature, pubKey) => {
+const verify = (data, signature, pubKey, hex = false) => {
+    if (!hex) data = Buffer.from(data, 'utf8').toString('hex')
     const pubKeyObj = PublicKey.fromString(pubKey)
 
     const signer = new rs.KJUR.crypto.Signature({ alg: 'SHA256withECDSA' })
     signer.init({ xy: uncompress(pubKeyObj).toString('hex'), curve: 'secp256r1' })
-    signer.updateString(data)
+    signer.updateHex(data)
 
     return signer.verify(rs.ECDSA.concatSigToASN1Sig(signature))
 }

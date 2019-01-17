@@ -8,7 +8,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/geastwood/Elastos.ORG.Wallet.Lib.Javascript.git"
+        "url": "git+https://github.com/chutium/Elastos.ORG.Wallet.Lib.Javascript.git"
     },
     "keywords": [
         "elastos",
@@ -16,12 +16,12 @@
         "sdk",
         "javascript"
     ],
-    "author": "",
+    "author": "Elastos Foundation",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/geastwood/Elastos.ORG.Wallet.Lib.Javascript/issues"
+        "url": "https://github.com/chutium/Elastos.ORG.Wallet.Lib.Javascript/issues"
     },
-    "homepage": "https://github.com/geastwood/Elastos.ORG.Wallet.Lib.Javascript#readme",
+    "homepage": "https://github.com/chutium/Elastos.ORG.Wallet.Lib.Javascript#readme",
     "dependencies": {
         "bigi": "^1.4.2",
         "bip39": "^2.5.0",
@@ -31,7 +31,8 @@
         "elliptic": "^6.4.1",
         "jsrsasign": "^8.0.12",
         "lodash": "^4.17.11",
-        "randombytes": "^2.0.6"
+        "randombytes": "^2.0.6",
+        "sync-request": "^6.0.0"
     },
     "devDependencies": {
         "jasmine": "^3.3.0"

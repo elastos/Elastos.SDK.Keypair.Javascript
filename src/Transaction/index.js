@@ -1,61 +1,149 @@
-const { getAddressFromPrivateKey } = require('../Address')
-const UtxoTxInput = require('./UtxoTxInput')
-const tx = {
-    Transactions: [
+'use strict';
+
+const _ = require('lodash')
+const { encoding, PrivateKey } = require('bitcore-lib-p256')
+const { toCode } = require('../Address')
+const { reverseByteBuffer } = require('../Utils')
+const { sign } = require('../Api')
+
+const Attribute = require('./attribute')
+const Input = require('./input')
+const Output = require('./output')
+const Program = require('./program')
+
+const { BufferWriter } = encoding
+
+const request = require('sync-request')
+
+const Type = {
+        CoinBase                : 0x00,
+        RegisterAsset           : 0x01,
+        TransferAsset           : 0x02,
+        Record                  : 0x03,
+        Deploy                  : 0x04,
+        SideMining              : 0x05,
+        IssueToken              : 0x06,
+        WithdrawAsset           : 0x07,
+        TransferCrossChainAsset : 0x08,
+        RegisterIdentification  : 0x09,
+};
+
+const DEFAULT_TYPE = Type.TransferAsset;
+const PAYLOAD_VERSION = 0;
+const DEFAULT_NLOCKTIME = 0;
+
+/**
+ * Represents a transaction, a set of inputs and outputs to change ownership of tokens
+ *
+ * @constructor
+ */
+function Transaction() {
+  if (!(this instanceof Transaction)) {
+    return new Transaction();
+  }
+  this.Type = DEFAULT_TYPE;
+  this.PayloadVer = PAYLOAD_VERSION;
+  this.LockTime = DEFAULT_NLOCKTIME;
+  this.Attributes = [];
+  this.UTXOInputs = [];
+  this.Outputs = [];
+  this.CrossChainAsset = [];
+  this.Programs = [];
+  this.Amount = undefined;
+  this.Memo = undefined;
+  this.Fee = undefined;
+  this.obj = undefined;
+  this.rawTx = undefined;
+}
+
+Transaction.prototype.getMemo = function() {
+  return this.Memo
+}
+
+Transaction.prototype.setMemo = function(memo) {
+  this.Memo = memo
+}
+
+//createTx('http://18.179.207.38:8080', 'EJonBz8U1gYnANjSafRF9EAJW9KTwRKd6x', 'EbunxcqXie6UExs5SXDbFZxr788iGGvAs9', 1000)
+Transaction.prototype.createTx = function(api_endpoint, input, output, amount, memo = undefined) {
+    var tx = {
+        inputs: [input],
+        outputs: [{ addr: output, amt: amount }]
+    }
+    this.Amount = amount
+
+    if (memo && memo.length > 0) this.setMemo(memo)
+    this.Attributes.push(new Attribute(this.Memo))
+
+    var res = request('POST', api_endpoint + '/api/1/createTx', { json: tx, timeout: 10000 })
+    var obj = JSON.parse(res.getBody('utf8')).result
+    this.obj = obj;
+
+    var inputs = []
+    obj.Transactions[0].UTXOInputs.forEach(function(input) { inputs.push(new Input(input)) })
+    this.UTXOInputs = inputs
+
+    var outputs = []
+    obj.Transactions[0].Outputs.forEach(function(output) { outputs.push(new Output(output)) })
+    this.Outputs = outputs
+
+    if (obj.Transactions[0].CrossChainAsset) {
+        //TODO: this.CrossChainAsset = crossChainAssets
+    }
+}
+
+Transaction.prototype.generateRawTransaction = function(privateKey) {
+    let dataWriter = this.serializeUnsigned()
+    let dataSigned = sign(dataWriter.concat().toString('hex'), privateKey, true)
+    this.Programs.push(new Program(
         {
-            UTXOInputs: [
-                {
-                    txid: '61c22a83bb96d958f473148fa64f3b2be02653c66ede506e83b82e522200d446',
-                    index: 0,
-                    privateKey: '5FA927E5664E563F019F50DCD4D7E2D9404F2D5D49E31F9482912E23D6D7B9EB',
-                },
-                {
-                    txid: 'a91b63ba6ffdb13379451895c51abd25c54678bc89268db6e6c3dcbb7bb07062',
-                    index: 0,
-                    privateKey: 'A65E9FB6735C5FD33F839036B15D2DA373E15AED38054B69386E322C6BE52994',
-                },
-            ],
-            Outputs: [
-                {
-                    address: 'ERz34iKa4nGaGYVtVpRWQZnbavJEe6PRDt',
-                    amount: 200,
-                },
-                {
-                    address: 'EKjeZEmLSXyyJ42xxjJP4QsKJYWwEXabuC',
-                    amount: 240,
-                },
-            ],
-        },
-    ],
+            code: toCode(Buffer.from(PrivateKey.fromBuffer(privateKey).publicKey.toString(), 'hex'), 0xac),
+            parameter: Buffer.from((dataSigned.length / 2).toString(16) + dataSigned, 'hex')
+        }
+    ))
+
+    dataWriter.writeVarintNum(this.Programs.length)
+    _.each(this.Programs, function(program) {
+        program.toBufferWriter(dataWriter)
+    })
+
+    this.rawTx = dataWriter.concat().toString('hex')
+
+    return this.rawTx
 }
-const parseUxtoInputs = uxtoInputs => {
-    const processed = []
-    for (const { txid, index, privateKey } of uxtoInputs) {
-        processed.push(new UtxoTxInput(txid, index, privateKey))
+
+Transaction.prototype.serializeUnsigned = function(writer) {
+    if (!writer) {
+        writer = new BufferWriter();
     }
-    return processed
+
+    writer.writeVarintNum(this.Type)
+    writer.writeVarintNum(this.PayloadVer)
+
+    writer.writeVarintNum(this.Attributes.length)
+    _.each(this.Attributes, function(attribute) {
+        attribute.toBufferWriter(writer)
+    })
+
+    writer.writeVarintNum(this.UTXOInputs.length)
+    _.each(this.UTXOInputs, function(input) {
+        input.toBufferWriter(writer)
+    })
+
+    writer.writeVarintNum(this.Outputs.length)
+    _.each(this.Outputs, function(output) {
+        output.toBufferWriter(writer)
+    })
+
+    writer.writeUInt32LE(this.LockTime)
+    return writer
 }
 
-// genRawTransaction
-const genRawTransaction = raw => {
-    const { Transactions: transactions } = raw
-    const [transaction] = transactions
-    const { UTXOInputs: utxoInputs, Outputs: outputs, Memo: memo } = transaction
-
-    // parse uxtoInputs
-    const utxoTxInputs = parseUxtoInputs(utxoInputs)
-    console.log('ff', utxoTxInputs.map(String))
-
-    // parse outputs
-
-    // handle memo
-    const hasMemo = Boolean(memo)
-    console.assert(hasMemo === false, 'should have memo')
-
-    return {
-        rawTx: '',
-        txHash: '',
-    }
+Transaction.prototype.sendRawTx = function(api_endpoint) {
+    var rawTx = { data: this.rawTx }
+    var res = request('POST', api_endpoint + '/api/1/sendRawTx', { json: rawTx, timeout: 10000 })
+    var txHash = JSON.parse(res.getBody('utf8')).result
+    return txHash
 }
 
-genRawTransaction(tx)
+module.exports = Transaction;

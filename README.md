@@ -9,6 +9,14 @@ or
 * `yarn` or `npm install` to install dependencies
 * `yarn test` to run tests
 
+## Docs
+
+https://elastos-wallet-lib-javascript.readthedocs.io/en/latest/
+
+## Sandboxes
+
+https://codesandbox.io/s/github/chutium/Elastos.ORG.Wallet.Lib.Javascript/tree/master/sandbox
+
 ## Api
 
 * [x] getSinglePublicKey
@@ -19,10 +27,11 @@ or
 * [x] getSeedFromMnemonic
 * [x] sign
 * [x] verify
+* [x] createTx
 * [x] generateRawTransaction
+* [x] sendRawTx
 * [x] generateSubPrivateKey
 * [x] generateSubPublicKey
-* [ ] freeBuf
 * [x] getPublicKeyFromPrivateKey
 * [ ] isAddressValid
 * [x] getIdChainMasterPublicKey
@@ -32,9 +41,3 @@ or
 * [x] getMultiSignAddress
 * [ ] multiSignTransaction
 * [ ] serializeMultiSignTransaction
-
-## TODOS
-
-* [x] Publish on npm
-* [ ] add eslint
-* [ ] add flow

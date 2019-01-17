@@ -1,5 +1,6 @@
 const { getSeedFromMnemonic } = require('../src/Mnemonic')
 const { getMultiSignAddress, getAddressFromPrivateKey, getAddress, getDid, getMultiSign } = require('../src/Address')
+const Transaction = require('../src/Transaction')
 const {
     getMasterPublicKey,
     getSinglePrivateKey,
@@ -222,5 +223,43 @@ describe('signAndVerify', function() {
         const publicKey = '020adf178b95000cb20a8a384c920b2e3eaf875ca7a23475c397816ab18be2567c'
         const message = 'hello'
         expect(verify(message, sign(message, privateKey), publicKey)).toBe(true)
+    })
+    it('should be true with hex message', function() {
+        const privateKey = '6a0827b159a58305b7891d039b14bac61de59145bd42b195152e6c0377d34d26'
+        const publicKey = '020adf178b95000cb20a8a384c920b2e3eaf875ca7a23475c397816ab18be2567c'
+        const message = '020001910b74657374206120746573740172af965a1e095a6b659fc7c6eba16465403addaf9a92189e92e7645d4c61119201000000000002a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0e8030000000000000000000021cdbf1cb9e63d691f6fd19af6fa2a4615495b195ab037db964a231458d2d6ffd5ea18944c4f90e63d547c5d3b9874df66a4ead0a354859a3b0000000000000000211221d5f34275cbf9a4d9bc4c57022c5dcd0a7e2a00000000'
+        expect(verify(message, sign(message, privateKey, hex = true), publicKey, hex = true)).toBe(true)
+    })
+})
+
+describe('verifyTransaction', function() {
+    it('should be true', function() {
+        const privateKey = '492f67d441f563aa4746497eb77c89906a3d3c06b242030ba966bc5604482ef7'
+        const api_endpoint = 'http://18.179.207.38:8080'
+        const from = 'EJonBz8U1gYnANjSafRF9EAJW9KTwRKd6x'
+        const to = 'EbunxcqXie6UExs5SXDbFZxr788iGGvAs9'
+        const amount = 1000
+        var tx = new Transaction()
+        tx.createTx(api_endpoint, from, to, amount)
+        tx.generateRawTransaction(privateKey)
+        var message = tx.serializeUnsigned().concat().toString('hex')
+        var signedData = tx.Programs[0].parameter.slice(1).toString('hex')
+        var publicKey = tx.Programs[0].code.slice(1,34).toString('hex')
+        expect(verify(message, signedData, publicKey, hex = true)).toBe(true)
+    })
+    it('should be true with memo', function() {
+        const privateKey = '492f67d441f563aa4746497eb77c89906a3d3c06b242030ba966bc5604482ef7'
+        const api_endpoint = 'http://18.179.207.38:8080'
+        const from = 'EJonBz8U1gYnANjSafRF9EAJW9KTwRKd6x'
+        const to = 'EbunxcqXie6UExs5SXDbFZxr788iGGvAs9'
+        const amount = 1000
+        const memo = 'hello'
+        var tx = new Transaction()
+        tx.createTx(api_endpoint, from, to, amount, memo)
+        tx.generateRawTransaction(privateKey)
+        var message = tx.serializeUnsigned().concat().toString('hex')
+        var signedData = tx.Programs[0].parameter.slice(1).toString('hex')
+        var publicKey = tx.Programs[0].code.slice(1,34).toString('hex')
+        expect(verify(message, signedData, publicKey, hex = true)).toBe(true)
     })
 })
