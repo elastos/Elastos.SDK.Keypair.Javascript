@@ -1,0 +1,36 @@
+{
+    "name": "elastos-wallet-js",
+    "version": "1.0.7",
+    "description": "Elastos Wallet SDK in JavaScript",
+    "main": "index.js",
+    "scripts": {
+        "test": "jasmine"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/elastos/Elastos.ORG.Wallet.Lib.Javascript.git"
+    },
+    "keywords": [
+        "elastos",
+        "wallet",
+        "sdk",
+        "javascript"
+    ],
+    "author": "Elastos Foundation",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/elastos/Elastos.ORG.Wallet.Lib.Javascript/issues"
+    },
+    "homepage": "https://github.com/elastos/Elastos.ORG.Wallet.Lib.Javascript#readme",
+    "dependencies": {
+        "bip39": "^2.5.0",
+        "bitcore-lib-p256": "0.16.0",
+        "jsrsasign": "^8.0.12",
+        "lodash": "^4.17.11",
+        "randombytes": "^2.0.6",
+        "sync-request": "^6.0.0"
+    },
+    "devDependencies": {
+        "jasmine": "^3.3.0"
+    }
+}
