@@ -14,7 +14,7 @@ const tx = new Transaction();
  * Endpoint of wallet service for testnet
  * Documentation refer to: https://walletservice.readthedocs.io/
  */
-const testnet_endpoint = 'http://18.179.207.38:8080';
+const testnet_endpoint = 'https://walletservicehackathontokoyo-wallet.rbxkpjywhf.ap-northeast-1.elasticbeanstalk.com';
 
 const testnet_address_from = 'EJonBz8U1gYnANjSafRF9EAJW9KTwRKd6x';
 const testnet_address_to = 'EbunxcqXie6UExs5SXDbFZxr788iGGvAs9';

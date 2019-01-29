@@ -63,7 +63,7 @@ Transaction.prototype.setMemo = function(memo) {
   this.Memo = memo
 }
 
-//createTx('http://18.179.207.38:8080', 'EJonBz8U1gYnANjSafRF9EAJW9KTwRKd6x', 'EbunxcqXie6UExs5SXDbFZxr788iGGvAs9', 1000)
+//createTx('https://api-wallet-ela-testnet.elastos.org', 'EJonBz8U1gYnANjSafRF9EAJW9KTwRKd6x', 'EbunxcqXie6UExs5SXDbFZxr788iGGvAs9', 1000)
 Transaction.prototype.createTx = function(api_endpoint, input, output, amount, memo = undefined) {
     var tx = {
         inputs: [input],
@@ -76,7 +76,7 @@ Transaction.prototype.createTx = function(api_endpoint, input, output, amount, m
 
     var res = request('POST', api_endpoint + '/api/1/createTx', { json: tx, timeout: 10000 })
     var obj = JSON.parse(res.getBody('utf8')).result
-    this.obj = obj;
+    this.obj = obj
 
     var inputs = []
     obj.Transactions[0].UTXOInputs.forEach(function(input) { inputs.push(new Input(input)) })

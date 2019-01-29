@@ -235,7 +235,7 @@ describe('signAndVerify', function() {
 describe('verifyTransaction', function() {
     it('should be true', function() {
         const privateKey = '492f67d441f563aa4746497eb77c89906a3d3c06b242030ba966bc5604482ef7'
-        const api_endpoint = 'http://18.179.207.38:8080'
+        const api_endpoint = 'https://api-wallet-ela-testnet.elastos.org'
         const from = 'EJonBz8U1gYnANjSafRF9EAJW9KTwRKd6x'
         const to = 'EbunxcqXie6UExs5SXDbFZxr788iGGvAs9'
         const amount = 1000
@@ -249,7 +249,7 @@ describe('verifyTransaction', function() {
     })
     it('should be true with memo', function() {
         const privateKey = '492f67d441f563aa4746497eb77c89906a3d3c06b242030ba966bc5604482ef7'
-        const api_endpoint = 'http://18.179.207.38:8080'
+        const api_endpoint = 'https://api-wallet-ela-testnet.elastos.org'
         const from = 'EJonBz8U1gYnANjSafRF9EAJW9KTwRKd6x'
         const to = 'EbunxcqXie6UExs5SXDbFZxr788iGGvAs9'
         const amount = 1000
