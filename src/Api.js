@@ -6,13 +6,21 @@ const { getAddress } = require('./Address')
 const rs = require('jsrsasign')
 const { uncompress } = require('./Utils')
 
-const getMasterPublicKey = seed => {
+const COIN_TYPE_ELA = 0
+const COIN_TYPE_IDCHAIN = 1
+
+const EXTERNAL_CHAIN = 0
+const INTERNAL_CHAIN = 1
+
+const ELA_ASSERT_ID = 'a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0'
+
+const getMasterPublicKey = (seed, coinType = COIN_TYPE_ELA) => {
     const prvKey = HDPrivateKey.fromSeed(seed)
     const parent = new HDPrivateKey(prvKey.xprivkey)
 
     const multiWallet = parent
         .deriveChild(44, true)
-        .deriveChild(0, true)
+        .deriveChild(coinType, true)
         .deriveChild(0, true)
 
     return multiWallet.xpubkey
@@ -41,24 +49,33 @@ const getDidWallet = (seed, i) => {
 const generateIdChainSubPrivateKey = (seed, i) => getDidWallet(seed, i).privateKey
 const generateIdChainSubPublicKey = (masterPublicKey, i) => getDidWallet(seed, i).publicKey
 
-const getSingleWallet = seed => getMultiWallet(seed, 0)
+const getSingleWallet = seed => getMultiWallet(seed, 0, COIN_TYPE_ELA, EXTERNAL_CHAIN)
 
-const getMultiWallet = (seed, i) => {
+const getMultiWallet = (seed, i, coinType, changeChain) => {
     const prvKey = HDPrivateKey.fromSeed(seed)
     const parent = new HDPrivateKey(prvKey.xprivkey)
     return parent
         .deriveChild(44, true)
+        .deriveChild(coinType, true)
         .deriveChild(0, true)
-        .deriveChild(0, true)
-        .deriveChild(0, false)
+        .deriveChild(changeChain, false)
         .deriveChild(i, false)
 }
 
 const getSinglePrivateKey = seed => getSingleWallet(seed).privateKey
 const getSinglePublicKey = seed => getSingleWallet(seed).publicKey
 const getPublicKeyFromPrivateKey = prvKey => PrivateKey.fromBuffer(prvKey).publicKey
-const generateSubPrivateKey = (seed, i) => getMultiWallet(seed, i).privateKey
-const generateSubPublicKey = (seed, i) => getMultiWallet(seed, i).publicKey
+const generateSubPrivateKey = (seed, i,
+                               coinType = COIN_TYPE_ELA,
+                               changeChain = EXTERNAL_CHAIN) => {
+    return getMultiWallet(seed, i, coinType, changeChain).privateKey
+}
+
+const generateSubPublicKey = (masterPublicKey, i,
+                              changeChain = EXTERNAL_CHAIN) => {
+    const parent = new HDPublicKey(masterPublicKey)
+    return parent.deriveChild(changeChain).deriveChild(i).publicKey
+}
 
 const sign = (data, prvKey, hex = false) => {
     if (!hex) data = Buffer.from(data, 'utf8').toString('hex')
