@@ -17,9 +17,9 @@ const {
 
 describe('getSeedFromMnemonic', function() {
     it('works with english', function() {
-        const wordlist = 'carbon isolate core citizen ignore admit grant cannon toe address stuff chest fly siege wing'
+        const wordlist = 'obtain pill nest sample caution stone candy habit silk husband give net'
         const seed =
-            'a65f0804f89ec98189bc37df9e178317cde9566f2f954bc92285c33cf814fe1dd49c815f78ff6c0f8733a548706c3e157f7c8c013bc297e2ac4a788c6ab99f87'
+            'de7bc75b0c29b1f543d9ef884acc508a3daef9844ce3c69c450b2e10748276b99203e682ea806189b1f08d25be93e1728b98493574e16f35f38e30a68382d463'
         expect(getSeedFromMnemonic(wordlist).toString('hex')).toBe(seed)
     })
     it('works with chinese', function() {
@@ -51,8 +51,8 @@ describe('getMasterPublicKey', function() {
 describe('getSinglePrivateKey', function() {
     it('should generate a master extended public key', function() {
         const seed =
-            '466cf12d6ee119bf15e26be50e4b3624d46457bf1051f2c0c1b61b4fb921a5b65cc54714ea8e9aa51c22ca2eb89913fb8dab5676c778516ca1a04a47693d8bef'
-        const privateKey = 'f1f64a2472653087ebdaf4849b99809b4637d28381dd910a5fe94ca6b2ebe9ba'
+            'de7bc75b0c29b1f543d9ef884acc508a3daef9844ce3c69c450b2e10748276b99203e682ea806189b1f08d25be93e1728b98493574e16f35f38e30a68382d463'
+        const privateKey = '1a25bf0687b7734ac943755b35fcc0339d26a89bfb68d93461194a72040441c6'
 
         expect(getSinglePrivateKey(seed).toString('hex')).toBe(privateKey)
     })
@@ -61,8 +61,8 @@ describe('getSinglePrivateKey', function() {
 describe('getSinglePublicKey', function() {
     it('should generate a master extended public key', function() {
         const seed =
-            '466cf12d6ee119bf15e26be50e4b3624d46457bf1051f2c0c1b61b4fb921a5b65cc54714ea8e9aa51c22ca2eb89913fb8dab5676c778516ca1a04a47693d8bef'
-        const publicKey = '0215fd6783fb8a9d8819ac68e62f20dee0d9ab58123ed532e3d4308066bf8fff2e'
+            'de7bc75b0c29b1f543d9ef884acc508a3daef9844ce3c69c450b2e10748276b99203e682ea806189b1f08d25be93e1728b98493574e16f35f38e30a68382d463'
+        const publicKey = '03167e98a7cb23cc84a86b93dbdac56a264e938dde2cfbcb2b9ee1895b5ffbe57d'
 
         expect(getSinglePublicKey(seed).toString('hex')).toBe(publicKey)
     })
@@ -70,16 +70,16 @@ describe('getSinglePublicKey', function() {
 
 describe('getAddress', function() {
     it('should get valid address from a public key', function() {
-        const publicKey = '0215fd6783fb8a9d8819ac68e62f20dee0d9ab58123ed532e3d4308066bf8fff2e'
-        expect(getAddress(publicKey)).toBe('EKc8u9BZFUwKZnsfjPT2zNNTTQbFymYsLY')
+        const publicKey = '03167e98a7cb23cc84a86b93dbdac56a264e938dde2cfbcb2b9ee1895b5ffbe57d'
+        expect(getAddress(publicKey)).toBe('EMSAMkHMTfridY9ftkXn781RSFc37xydXK')
     })
 })
 
 describe('getAddressFromPrivateKey', function() {
     it('should get address from private key', function() {
         const seed =
-            '466cf12d6ee119bf15e26be50e4b3624d46457bf1051f2c0c1b61b4fb921a5b65cc54714ea8e9aa51c22ca2eb89913fb8dab5676c778516ca1a04a47693d8bef'
-        const prvKey = 'f1f64a2472653087ebdaf4849b99809b4637d28381dd910a5fe94ca6b2ebe9ba'
+            'de7bc75b0c29b1f543d9ef884acc508a3daef9844ce3c69c450b2e10748276b99203e682ea806189b1f08d25be93e1728b98493574e16f35f38e30a68382d463'
+        const prvKey = '1a25bf0687b7734ac943755b35fcc0339d26a89bfb68d93461194a72040441c6'
 
         const pubKey = getSinglePublicKey(seed).toString('hex')
         expect(getAddressFromPrivateKey(prvKey)).toBe(getAddress(pubKey))

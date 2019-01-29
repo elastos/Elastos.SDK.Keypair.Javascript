@@ -41,11 +41,8 @@ const getDidWallet = (seed, i) => {
 const generateIdChainSubPrivateKey = (seed, i) => getDidWallet(seed, i).privateKey
 const generateIdChainSubPublicKey = (masterPublicKey, i) => getDidWallet(seed, i).publicKey
 
-const getSingleWallet = seed => {
-    const prvKey = HDPrivateKey.fromSeed(seed)
-    const parent = new HDPrivateKey(prvKey.xprivkey)
-    return parent.deriveChild(1, true).deriveChild(0)
-}
+const getSingleWallet = seed => getMultiWallet(seed, 0)
+
 const getMultiWallet = (seed, i) => {
     const prvKey = HDPrivateKey.fromSeed(seed)
     const parent = new HDPrivateKey(prvKey.xprivkey)
