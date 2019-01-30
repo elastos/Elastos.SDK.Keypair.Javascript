@@ -17,9 +17,9 @@ const {
 
 describe('getSeedFromMnemonic', function() {
     it('works with english', function() {
-        const wordlist = 'carbon isolate core citizen ignore admit grant cannon toe address stuff chest fly siege wing'
+        const wordlist = 'obtain pill nest sample caution stone candy habit silk husband give net'
         const seed =
-            'a65f0804f89ec98189bc37df9e178317cde9566f2f954bc92285c33cf814fe1dd49c815f78ff6c0f8733a548706c3e157f7c8c013bc297e2ac4a788c6ab99f87'
+            'de7bc75b0c29b1f543d9ef884acc508a3daef9844ce3c69c450b2e10748276b99203e682ea806189b1f08d25be93e1728b98493574e16f35f38e30a68382d463'
         expect(getSeedFromMnemonic(wordlist).toString('hex')).toBe(seed)
     })
     it('works with chinese', function() {
@@ -40,9 +40,9 @@ describe('getSeedFromMnemonic', function() {
 describe('getMasterPublicKey', function() {
     it('should generate a master extended public key', function() {
         const seed =
-            '466cf12d6ee119bf15e26be50e4b3624d46457bf1051f2c0c1b61b4fb921a5b65cc54714ea8e9aa51c22ca2eb89913fb8dab5676c778516ca1a04a47693d8bef'
+            'de7bc75b0c29b1f543d9ef884acc508a3daef9844ce3c69c450b2e10748276b99203e682ea806189b1f08d25be93e1728b98493574e16f35f38e30a68382d463'
         const masterPublicKey =
-            'xpub6CXfUrz3N8N7CUygs4gSjbygC2NC1yi6gVPnTCRYJSNArh3nEeqbr7h1u7Q91tgzZmVpUt7SY5cJxJeL3Q69fR7GrJUTLQQ7rFY9sveEQ2a'
+            'xpub6D9hB6pdNw9VcM1vpR1Qz1ZNuxjmfK8mYnr87XkpBB87YRKTpbYMfyjEEsCCc6t8n2Yz2vQZdQk3tiyfbB3Hc2H2NgwMub96VKpJDVbj9CL'
 
         expect(getMasterPublicKey(seed)).toBe(masterPublicKey)
     })
@@ -51,8 +51,8 @@ describe('getMasterPublicKey', function() {
 describe('getSinglePrivateKey', function() {
     it('should generate a master extended public key', function() {
         const seed =
-            '466cf12d6ee119bf15e26be50e4b3624d46457bf1051f2c0c1b61b4fb921a5b65cc54714ea8e9aa51c22ca2eb89913fb8dab5676c778516ca1a04a47693d8bef'
-        const privateKey = 'f1f64a2472653087ebdaf4849b99809b4637d28381dd910a5fe94ca6b2ebe9ba'
+            'de7bc75b0c29b1f543d9ef884acc508a3daef9844ce3c69c450b2e10748276b99203e682ea806189b1f08d25be93e1728b98493574e16f35f38e30a68382d463'
+        const privateKey = '1a25bf0687b7734ac943755b35fcc0339d26a89bfb68d93461194a72040441c6'
 
         expect(getSinglePrivateKey(seed).toString('hex')).toBe(privateKey)
     })
@@ -61,8 +61,8 @@ describe('getSinglePrivateKey', function() {
 describe('getSinglePublicKey', function() {
     it('should generate a master extended public key', function() {
         const seed =
-            '466cf12d6ee119bf15e26be50e4b3624d46457bf1051f2c0c1b61b4fb921a5b65cc54714ea8e9aa51c22ca2eb89913fb8dab5676c778516ca1a04a47693d8bef'
-        const publicKey = '0215fd6783fb8a9d8819ac68e62f20dee0d9ab58123ed532e3d4308066bf8fff2e'
+            'de7bc75b0c29b1f543d9ef884acc508a3daef9844ce3c69c450b2e10748276b99203e682ea806189b1f08d25be93e1728b98493574e16f35f38e30a68382d463'
+        const publicKey = '03167e98a7cb23cc84a86b93dbdac56a264e938dde2cfbcb2b9ee1895b5ffbe57d'
 
         expect(getSinglePublicKey(seed).toString('hex')).toBe(publicKey)
     })
@@ -70,16 +70,16 @@ describe('getSinglePublicKey', function() {
 
 describe('getAddress', function() {
     it('should get valid address from a public key', function() {
-        const publicKey = '0215fd6783fb8a9d8819ac68e62f20dee0d9ab58123ed532e3d4308066bf8fff2e'
-        expect(getAddress(publicKey)).toBe('EKc8u9BZFUwKZnsfjPT2zNNTTQbFymYsLY')
+        const publicKey = '03167e98a7cb23cc84a86b93dbdac56a264e938dde2cfbcb2b9ee1895b5ffbe57d'
+        expect(getAddress(publicKey)).toBe('EMSAMkHMTfridY9ftkXn781RSFc37xydXK')
     })
 })
 
 describe('getAddressFromPrivateKey', function() {
     it('should get address from private key', function() {
         const seed =
-            '466cf12d6ee119bf15e26be50e4b3624d46457bf1051f2c0c1b61b4fb921a5b65cc54714ea8e9aa51c22ca2eb89913fb8dab5676c778516ca1a04a47693d8bef'
-        const prvKey = 'f1f64a2472653087ebdaf4849b99809b4637d28381dd910a5fe94ca6b2ebe9ba'
+            'de7bc75b0c29b1f543d9ef884acc508a3daef9844ce3c69c450b2e10748276b99203e682ea806189b1f08d25be93e1728b98493574e16f35f38e30a68382d463'
+        const prvKey = '1a25bf0687b7734ac943755b35fcc0339d26a89bfb68d93461194a72040441c6'
 
         const pubKey = getSinglePublicKey(seed).toString('hex')
         expect(getAddressFromPrivateKey(prvKey)).toBe(getAddress(pubKey))
@@ -89,63 +89,63 @@ describe('getAddressFromPrivateKey', function() {
 describe('generateSubPrivateKey & generateSubPublicKey', function() {
     it('should work', function() {
         const seed =
-            '466cf12d6ee119bf15e26be50e4b3624d46457bf1051f2c0c1b61b4fb921a5b65cc54714ea8e9aa51c22ca2eb89913fb8dab5676c778516ca1a04a47693d8bef'
+            'de7bc75b0c29b1f543d9ef884acc508a3daef9844ce3c69c450b2e10748276b99203e682ea806189b1f08d25be93e1728b98493574e16f35f38e30a68382d463'
         const vectors = [
             {
-                prvKey: 'b50b31f1068b31ce2c5c29828b78c5420813750e3cd7bf5184284025e0000a59',
-                pubKey: '030f1ee41fe75591852c644ddb97b51dbff6d407cf39b402f19f3fb5932f1f26b1',
-                address: 'Ed9KxcwsL43f9r8y8x913wWn8StHXwJnCN',
+                prvKey: '1a25bf0687b7734ac943755b35fcc0339d26a89bfb68d93461194a72040441c6',
+                pubKey: '03167e98a7cb23cc84a86b93dbdac56a264e938dde2cfbcb2b9ee1895b5ffbe57d',
+                address: 'EMSAMkHMTfridY9ftkXn781RSFc37xydXK',
             },
             {
-                prvKey: '4061009549f38d258e543e16e1159d1da010b5c351b12014fb1325a900c62491',
-                pubKey: '03384a6832de3e2cd020d1f96b37d356c7b65d153d664c484ae41194a3cf9e4401',
-                address: 'EbQyigzDXiFjc2rynGuzCmu77kYhaneJme',
+                prvKey: '7c2e177fcdb1131fe85fc597e6116e0e0c7b0f2ed299d991946c935df567fe34',
+                pubKey: '03d66e965ae63c1cc79981e9775dfeb78c9b17abde05d0c73397eeb5b04729bfac',
+                address: 'EQjamGkeG76zMMEUzERha6J2Wtz8UXLr8j',
             },
             {
-                prvKey: '93862a94342ce0052cd8052a9734f7dbd6ab5c311a31f7712852110ee85cbffe',
-                pubKey: '021fa413906a018e2125fb5f638f60cdc9e15159ee80d7167f2da464c6a118e22a',
-                address: 'EgD6M62juhHccBf6ecaqXriZ5LvMHGJpek',
+                prvKey: 'fc12cbf8266ab082bf588710f44121d2e97e85f66a6e667b5d929391954e62d4',
+                pubKey: '02181c5998c70d2d66b3193bf7d7047f7897a57a5918b820ee5c22fc7e43e1cc0e',
+                address: 'EchCmx9Wjz5ee8kq4tr5UgGwFc8jfdxzbo',
             },
             {
-                prvKey: 'e6a54f367325c854d7ecc10fd2672c7468eb02dee32e62fa936a65771b4cf06d',
-                pubKey: '03e3b4afa3727be6ca2da0086e209812d3c78c86ab3a5b3a7346d34f80426ebd22',
-                address: 'EKSd6srY98fuSSKsbpktrcdPhEurJu74Z5',
+                prvKey: 'e678cca78175db8f345641f017b0ab0a0803ca5d4dae4ed45068d6aa34021981',
+                pubKey: '03460c9b845cf8e337ff83cbf2c0f0c2257409c48f5822bf18c994304125c99d39',
+                address: 'EaW9frWtEPv6JACXayFm94Bw9hTuSZPYRr',
             },
             {
-                prvKey: 'f71ae54cdf32040a80f45e1156eddd5c66e45c2414cc2b2943b8bf20a747cd4b',
-                pubKey: '026833413e414ee781da737c2dafec489a3ecb884932b0adb7e08e397126f5b878',
-                address: 'EMpL9iwNopTpVCzruXM2nr6exeha2VcbJK',
+                prvKey: '8b1b326e3150e25844def99d89136e975cf853366838a15fd24dce4e3444e139',
+                pubKey: '0296cea0134507f4ca97d88e12dc50be28fe7f99de184b9ccb93e35ab52fdd52e2',
+                address: 'ELnM8M5665UbERrw9CuKTJAeWr3BZ9qWtz',
             },
             {
-                prvKey: '29c8dfc95a5abd4e0d9bec3355caec3296da4f8024639b5dc38ffd617bec0963',
-                pubKey: '025e366d1c53c6317c34b03d59713d3780c8bf478bcd3948edaa8dde0428cef82c',
-                address: 'EYPSjaBBC5YEDTszmqsuCeaLfdZ5TyuRzX',
+                prvKey: 'd3fe1de1e3b2901836225904eb4489c591ad48d14e95bdc989ba54ce56525188',
+                pubKey: '035d9b096c2be3cdc78147a578aa2c3af929652ef341f8758a1a4a382b134c4f11',
+                address: 'ERNoDpkG3MpuUG41XniePUHdBVGihF3iAR',
             },
             {
-                prvKey: 'ceb5641ab1f1dd1afd2d28037efae72d9c99bca8e6c8096bf1c4828089e8f804',
-                pubKey: '02e78ab07d70f5ba56f6568c0cc5c78c203d09de564e465eb058d12bcefd7893a7',
-                address: 'EVho83TLPhDkSMadL2yzPT8zBeR4Jss5Bd',
+                prvKey: 'c5a5ee7dad79a46cd3989978dc9482a7615888704534c7bf1bff90f601186d5e',
+                pubKey: '02d8eee2e4330584f22c0d031dad18ee232bf727725e5a48f6bdefcb33fa1f2ad9',
+                address: 'EQ5ZN1zmNLoqZbJzzahGXKng2PTS6dAeHh',
             },
             {
-                prvKey: '8434b3553af78023650c74f8fddd3524d925956c32c737e1970ef7d017d3bd5b',
-                pubKey: '0354ac72eca391a4a3da72f134e5a0f00b3228d2cf17ff6d22978debe3953eccab',
-                address: 'ENZf4MMQcsoV9W17p7XsuA6BwvmKek1K35',
+                prvKey: '9ea0dd63c4d79137ba67676eefe845c79388e02f90156fee20f53ca634981eaf',
+                pubKey: '02ce538f9eecc6400f77eb96b2a6202ded3d07f0732fe68a387456ded55565903f',
+                address: 'EfsGmHF1cf9YFB1W4QWavaUjycdpSQ2AhB',
             },
             {
-                prvKey: '8760d69f5ed341ddc951f7d44c242f2f355b63ca9415cbff5082efa2bd48530d',
-                pubKey: '03a5dacce2aa9d56648d5affebe08a05e33f5d26412db3b46b1d624745efb3bdcb',
-                address: 'Eg9AQoDxRcUYh36tj17gNQxQBKKMgVq6p5',
+                prvKey: 'de74dfe6edf8d6bc0a800f7ccda378fc26170588011fe736c2d771d02f422292',
+                pubKey: '026e2623a9fc57a5a85a141c3530be06388b7c714f71f39d6cf3b58793dea1bad0',
+                address: 'EV7KTa2KxydJcRL5yJPnGc2mjodGdHjTSN',
             },
             {
-                prvKey: 'f694cac42de1c954997862518ec198bfdfcc7b59c8c4445a527f07720b74eb0f',
-                pubKey: '03dca23cd1a5b6f3f2149330582c403d3b4838295012145552eec0277d32a99658',
-                address: 'EdAfFofHBFXXsgQoSs1S28r86N37jgNXze',
+                prvKey: '611faad346ec7f0e20c2145dcf4635eabee3135d63765cc3eb0b30d9fbf13140',
+                pubKey: '03ea642553bd7d18166ceeeea75c45c3b6071dd21a43f60c894a0b61414f866603',
+                address: 'EQX3buSSYhYtfcJshScYvDgRVJZyCAJmax',
             },
         ]
 
         vectors.forEach(({ prvKey, pubKey, address }, i) => {
             expect(generateSubPrivateKey(seed, i).toString('hex')).toBe(prvKey)
-            expect(generateSubPublicKey(seed, i).toString('hex')).toBe(pubKey)
+            expect(generateSubPublicKey(getMasterPublicKey(seed), i).toString('hex')).toBe(pubKey)
         })
     })
 })
