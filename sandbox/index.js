@@ -20,6 +20,42 @@ const testnet_address_from = 'EJonBz8U1gYnANjSafRF9EAJW9KTwRKd6x';
 const testnet_address_to = 'EbunxcqXie6UExs5SXDbFZxr788iGGvAs9';
 const testnet_privateKey = '492f67d441f563aa4746497eb77c89906a3d3c06b242030ba966bc5604482ef7';
 
+const testnet_demo_tx = JSON.parse(`{
+    "result": {
+        "Transactions": [
+            {
+                "UTXOInputs": [
+                    {
+                        "address": "ELbKQrj8DTYn2gU7KBejcNWb4ix4EAGDmy",
+                        "txid": "c1fe970b3498c9565208c07bf5412562b870ba0662082cd7dd3ff8c39f8ac351",
+                        "index": 1
+                    },
+                    {
+                        "address": "EbxU18T3M9ufnrkRY7NLt6sKyckDW4VAsA",
+                        "txid": "3d608062c909dd4a0391e70059307110b527d75a9d42b247e882a8f327613188",
+                        "index": 1
+                    }
+                ],
+                "Fee": 100,
+                "Outputs": [
+                    {
+                        "amount": 12010,
+                        "address": "ELag7vYvKcUBVKJkWosBQw73HSx8madjcP"
+                    },
+                    {
+                        "amount": 5254779,
+                        "address": "ELbKQrj8DTYn2gU7KBejcNWb4ix4EAGDmy"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": 200
+}`)
+
+const testnet_privateKey1 = '7EF82C9376B96AE3FCE44D79D70B8FA0B0E94A0835A68C26C17036A7B3358834';
+const testnet_privateKey2 = 'C740869D015E674362B1F441E3EDBE1CBCF4FE8B709AA1A77E5CCA2C92BAF99D';
+
 function getAddress() {
   console.log(mnem);
   console.log(privateKey);
@@ -30,9 +66,10 @@ function getAddress() {
 }
 
 function generateRawTransactionOnTestnet() {
-  tx.createTx(testnet_endpoint, testnet_address_from, testnet_address_to, 1000);
+  //tx.createTx(testnet_endpoint, testnet_address_from, testnet_address_to, 1000);
+  tx.getRawObject(testnet_demo_tx.result)
   console.log(tx);
-  return tx.generateRawTransaction(testnet_privateKey);
+  return tx.generateRawTransaction([testnet_privateKey1, testnet_privateKey2]);
   // After generateRawTransaction you can use tx.sendRawTx(testnet_endpoint) to
   // send the rawTx to wallet service endpoint and it returns a transaction id hash
 }
