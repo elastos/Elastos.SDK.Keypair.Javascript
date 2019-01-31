@@ -4,6 +4,6 @@
   "dependencies": {
     "react": "^16",
     "react-dom": "^16",
-    "elastos-wallet-js": ">1.0.0"
+    "elastos-wallet-js": ">1.0.8"
   }
 }
