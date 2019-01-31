@@ -14,11 +14,11 @@ const tx = new Transaction();
  * Endpoint of wallet service for testnet
  * Documentation refer to: https://walletservice.readthedocs.io/
  */
-const testnet_endpoint = 'https://walletservicehackathontokoyo-wallet.rbxkpjywhf.ap-northeast-1.elasticbeanstalk.com';
+const testnet_endpoint = 'https://api-wallet-ela-testnet.elastos.org';
 
-const testnet_address_from = 'EJonBz8U1gYnANjSafRF9EAJW9KTwRKd6x';
-const testnet_address_to = 'EbunxcqXie6UExs5SXDbFZxr788iGGvAs9';
-const testnet_privateKey = '492f67d441f563aa4746497eb77c89906a3d3c06b242030ba966bc5604482ef7';
+const testnet_address_from = 'EbxU18T3M9ufnrkRY7NLt6sKyckDW4VAsA';
+const testnet_address_to = 'ELbKQrj8DTYn2gU7KBejcNWb4ix4EAGDmy';
+//const testnet_privateKey = '492f67d441f563aa4746497eb77c89906a3d3c06b242030ba966bc5604482ef7';
 
 const testnet_demo_tx = JSON.parse(`{
     "result": {
