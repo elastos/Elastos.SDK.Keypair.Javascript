@@ -1,6 +1,6 @@
 {
     "name": "elastos-wallet-js",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "description": "Elastos Wallet SDK in JavaScript",
     "main": "index.js",
     "scripts": {
