@@ -51,7 +51,7 @@ function Transaction() {
   this.Amount = undefined;
   this.Memo = undefined;
   this.Fee = undefined;
-  this.obj = undefined;
+  this.json = undefined;
   this.rawTx = undefined;
 }
 
@@ -75,31 +75,40 @@ Transaction.prototype.createTx = function(api_endpoint, input, output, amount, m
     this.Attributes.push(new Attribute(this.Memo))
 
     var res = request('POST', api_endpoint + '/api/1/createTx', { json: tx, timeout: 10000 })
-    var obj = JSON.parse(res.getBody('utf8')).result
-    this.obj = obj
+    var result = JSON.parse(res.getBody('utf8')).result
+    this.json = result
+    this.getRawObject()
+}
+
+Transaction.prototype.getRawObject = function(rawJson) {
+    if (rawJson) this.json = rawJson
 
     var inputs = []
-    obj.Transactions[0].UTXOInputs.forEach(function(input) { inputs.push(new Input(input)) })
+    this.json.Transactions[0].UTXOInputs.forEach(function(input) { inputs.push(new Input(input)) })
     this.UTXOInputs = inputs
 
     var outputs = []
-    obj.Transactions[0].Outputs.forEach(function(output) { outputs.push(new Output(output)) })
+    this.json.Transactions[0].Outputs.forEach(function(output) { outputs.push(new Output(output)) })
     this.Outputs = outputs
 
-    if (obj.Transactions[0].CrossChainAsset) {
+    if (this.json.Transactions[0].CrossChainAsset) {
         //TODO: this.CrossChainAsset = crossChainAssets
     }
 }
 
-Transaction.prototype.generateRawTransaction = function(privateKey) {
+Transaction.prototype.generateRawTransaction = function(privateKeys) {
     let dataWriter = this.serializeUnsigned()
-    let dataSigned = sign(dataWriter.concat().toString('hex'), privateKey, true)
-    this.Programs.push(new Program(
-        {
-            code: toCode(Buffer.from(PrivateKey.fromBuffer(privateKey).publicKey.toString(), 'hex'), 0xac),
-            parameter: Buffer.from((dataSigned.length / 2).toString(16) + dataSigned, 'hex')
-        }
-    ))
+    var programs = []
+    privateKeys.forEach(function(privateKey) {
+        let dataSigned = sign(dataWriter.concat().toString('hex'), privateKey, true)
+        programs.push(new Program(
+            {
+                code: toCode(Buffer.from(PrivateKey.fromBuffer(privateKey).publicKey.toString(), 'hex'), 0xac),
+                parameter: Buffer.from((dataSigned.length / 2).toString(16) + dataSigned, 'hex')
+            }
+        ))
+    })
+    this.Programs = programs
 
     dataWriter.writeVarintNum(this.Programs.length)
     _.each(this.Programs, function(program) {
