@@ -144,8 +144,8 @@ describe('generateSubPrivateKey & generateSubPublicKey', function() {
         ]
 
         vectors.forEach(({ prvKey, pubKey, address }, i) => {
-            expect(generateSubPrivateKey(seed, i).toString('hex')).toBe(prvKey)
-            expect(generateSubPublicKey(getMasterPublicKey(seed), i).toString('hex')).toBe(pubKey)
+            expect(generateSubPrivateKey(seed, coinType = undefined, changeChain = undefined, index = i).toString('hex')).toBe(prvKey)
+            expect(generateSubPublicKey(getMasterPublicKey(seed), coinType = undefined, index = i).toString('hex')).toBe(pubKey)
         })
     })
 })

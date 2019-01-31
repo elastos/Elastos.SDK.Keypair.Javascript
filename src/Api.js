@@ -34,47 +34,43 @@ const getIdChainMasterPublicKey = seed => {
     return idChain.publicKey
 }
 
-const getDidWallet = (seed, i) => {
+const getDidWallet = (seed, index) => {
     const prvKey = HDPrivateKey.fromSeed(seed)
     const parent = new HDPrivateKey(prvKey.xprivkey)
 
     const didWallet = parent
         .deriveChild(0, true)
         .deriveChild(0, false)
-        .deriveChild(i, false)
+        .deriveChild(index, false)
 
     return didWallet
 }
 
-const generateIdChainSubPrivateKey = (seed, i) => getDidWallet(seed, i).privateKey
-const generateIdChainSubPublicKey = (masterPublicKey, i) => getDidWallet(seed, i).publicKey
+const generateIdChainSubPrivateKey = (seed, index) => getDidWallet(seed, index).privateKey
+const generateIdChainSubPublicKey = (masterPublicKey, index) => getDidWallet(seed, index).publicKey
 
-const getSingleWallet = seed => getMultiWallet(seed, 0, COIN_TYPE_ELA, EXTERNAL_CHAIN)
+const getSingleWallet = seed => getMultiWallet(seed, COIN_TYPE_ELA, EXTERNAL_CHAIN, 0)
 
-const getMultiWallet = (seed, i, coinType, changeChain) => {
+const getMultiWallet = (seed, coinType, changeChain, index) => {
     const prvKey = HDPrivateKey.fromSeed(seed)
     const parent = new HDPrivateKey(prvKey.xprivkey)
     return parent
         .deriveChild(44, true)
-        .deriveChild(coinType, true)
+        .deriveChild(coinType ? coinType : COIN_TYPE_ELA, true)
         .deriveChild(0, true)
-        .deriveChild(changeChain, false)
-        .deriveChild(i, false)
+        .deriveChild(changeChain ? changeChain : EXTERNAL_CHAIN, false)
+        .deriveChild(index ? index : 0, false)
 }
 
 const getSinglePrivateKey = seed => getSingleWallet(seed).privateKey
 const getSinglePublicKey = seed => getSingleWallet(seed).publicKey
 const getPublicKeyFromPrivateKey = prvKey => PrivateKey.fromBuffer(prvKey).publicKey
-const generateSubPrivateKey = (seed, i,
-                               coinType = COIN_TYPE_ELA,
-                               changeChain = EXTERNAL_CHAIN) => {
-    return getMultiWallet(seed, i, coinType, changeChain).privateKey
+const generateSubPrivateKey = (seed, coinType, changeChain, index) => {
+    return getMultiWallet(seed, coinType, changeChain, index).privateKey
 }
-
-const generateSubPublicKey = (masterPublicKey, i,
-                              changeChain = EXTERNAL_CHAIN) => {
+const generateSubPublicKey = (masterPublicKey, changeChain, index) => {
     const parent = new HDPublicKey(masterPublicKey)
-    return parent.deriveChild(changeChain).deriveChild(i).publicKey
+    return parent.deriveChild(changeChain ? changeChain : EXTERNAL_CHAIN).deriveChild(index).publicKey
 }
 
 const sign = (data, prvKey, hex = false) => {
