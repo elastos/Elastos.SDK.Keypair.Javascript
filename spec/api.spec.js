@@ -144,8 +144,8 @@ describe('generateSubPrivateKey & generateSubPublicKey', function() {
         ]
 
         vectors.forEach(({ prvKey, pubKey, address }, i) => {
-            expect(generateSubPrivateKey(seed, i).toString('hex')).toBe(prvKey)
-            expect(generateSubPublicKey(getMasterPublicKey(seed), i).toString('hex')).toBe(pubKey)
+            expect(generateSubPrivateKey(seed, coinType = undefined, changeChain = undefined, index = i).toString('hex')).toBe(prvKey)
+            expect(generateSubPublicKey(getMasterPublicKey(seed), coinType = undefined, index = i).toString('hex')).toBe(pubKey)
         })
     })
 })
@@ -241,7 +241,7 @@ describe('verifyTransaction', function() {
         const amount = 1000
         var tx = new Transaction()
         tx.createTx(api_endpoint, from, to, amount)
-        tx.generateRawTransaction(privateKey)
+        tx.generateRawTransaction([privateKey])
         var message = tx.serializeUnsigned().concat().toString('hex')
         var signedData = tx.Programs[0].parameter.slice(1).toString('hex')
         var publicKey = tx.Programs[0].code.slice(1,34).toString('hex')
@@ -256,7 +256,7 @@ describe('verifyTransaction', function() {
         const memo = 'hello'
         var tx = new Transaction()
         tx.createTx(api_endpoint, from, to, amount, memo)
-        tx.generateRawTransaction(privateKey)
+        tx.generateRawTransaction([privateKey])
         var message = tx.serializeUnsigned().concat().toString('hex')
         var signedData = tx.Programs[0].parameter.slice(1).toString('hex')
         var publicKey = tx.Programs[0].code.slice(1,34).toString('hex')
