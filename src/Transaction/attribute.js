@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const { encoding } = require('bitcore-lib-p256')
+const { encoding } = require('bitcore-lib-curve')
 const { BufferWriter } = encoding
 
 const Usage = {

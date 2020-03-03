@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 const { reverseByteBuffer } = require('../Utils')
-const { crypto, encoding } = require('bitcore-lib-p256')
+const { crypto, encoding } = require('bitcore-lib-curve')
 const { Base58Check, BufferWriter } = encoding
 const { BN } = crypto
 

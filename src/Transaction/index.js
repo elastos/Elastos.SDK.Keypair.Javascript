@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash')
-const { encoding, PrivateKey } = require('bitcore-lib-p256')
+const { encoding, PrivateKey } = require('bitcore-lib-curve')
 const { toCode } = require('../Address')
 const { sign } = require('../Api')
 
