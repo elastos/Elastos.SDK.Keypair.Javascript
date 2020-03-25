@@ -25,12 +25,21 @@ const sortBigNumber = (a, b) => {
 }
 
 const toCode = (pubKeyBuf, signType) => {
-    return Buffer.concat([Buffer.from([0x21]), pubKeyBuf, Buffer.from([signType])])
+    return Buffer.concat([Buffer.from([pubKeyBuf.length]), pubKeyBuf, Buffer.from([signType])])
 }
 
 const getAddressBase = (pubKey, signType) => {
     const pubKeyBuf = new Buffer(pubKey, 'hex')
     const code = toCode(pubKeyBuf, signTypeMap[signType].type)
+    const hashBuf = Hash.sha256ripemd160(code)
+    const programHashBuf = Buffer.concat([Buffer.from([signTypeMap[signType].address]), hashBuf])
+
+    return Base58Check.encode(programHashBuf)
+}
+
+const getAddressByInfoBase = (info, signType) => {
+    const infoBuf = new Buffer(info)
+    const code = toCode(infoBuf, signTypeMap[signType].type)
     const hashBuf = Hash.sha256ripemd160(code)
     const programHashBuf = Buffer.concat([Buffer.from([signTypeMap[signType].address]), hashBuf])
 
@@ -67,10 +76,16 @@ const getMultiSignAddress = (pubKeys, requiredCount) => {
     return Base58Check.encode(programHashBuf)
 }
 
+const getAddressByInfo = info => getAddressByInfoBase(info, 'ELA_STANDARD')
+
+const getDidByInfo = info => getAddressByInfoBase(info, 'ELA_IDCHAIN')
+
 module.exports = {
     toCode,
     getAddress,
     getAddressFromPrivateKey,
     getDid,
     getMultiSignAddress,
+    getAddressByInfo,
+    getDidByInfo,
 }
