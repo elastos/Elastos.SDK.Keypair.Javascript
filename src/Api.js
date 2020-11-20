@@ -1,4 +1,4 @@
-const { HDPrivateKey, HDPublicKey, PublicKey, PrivateKey, crypto } = require('bitcore-lib-curve')
+const { HDPrivateKey, HDPublicKey, PublicKey, PrivateKey, crypto } = require('bitcore-lib-p256')
 const { Buffer } = require('buffer')
 const { ecdsa, hash } = crypto
 const { getSeedFromMnemonic } = require('./Mnemonic')

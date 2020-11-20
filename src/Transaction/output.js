@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 const { reverseByteBuffer } = require('../Utils')
-const { crypto, encoding } = require('bitcore-lib-curve')
+const { crypto, encoding } = require('bitcore-lib-p256')
 const { Base58Check, BufferWriter } = encoding
 const { BN } = crypto
 
@@ -51,7 +51,7 @@ Output.prototype.toObject = Output.prototype.toJSON = function toObject() {
   return obj;
 };
 
-Output.prototype.toBufferWriter = function(writer) {
+Output.prototype.toBufferWriter = function(writer, txVersion = undefined) {
   if (!writer) {
     writer = new BufferWriter();
   }
@@ -59,6 +59,9 @@ Output.prototype.toBufferWriter = function(writer) {
   writer.writeUInt64LEBN(BN.fromString(this.amount.toString()));
   writer.writeUInt32LE(this.OutputLock);
   writer.write(this.ProgramHash);
+  if(txVersion && txVersion >= 0x09) {
+    writer.writeVarintNum(0);
+  }
   return writer;
 };
 

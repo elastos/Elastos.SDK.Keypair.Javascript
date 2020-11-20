@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const { encoding } = require('bitcore-lib-curve')
+const { encoding } = require('bitcore-lib-p256')
 const { BufferWriter } = encoding
 
 const MAXINT = 0xffffffff; // Math.pow(2, 32) - 1;

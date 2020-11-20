@@ -24,7 +24,7 @@
     "homepage": "https://github.com/elastos/Elastos.SDK.Keypair.Javascript#readme",
     "dependencies": {
         "bip39": "^2.5.0",
-        "bitcore-lib-curve": "0.16.0",
+        "bitcore-lib-p256": "0.16.0",
         "jsrsasign": "^8.0.12",
         "lodash": "^4.17.11",
         "randombytes": "^2.0.6",
